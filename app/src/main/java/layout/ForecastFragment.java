@@ -33,6 +33,7 @@ import java.util.GregorianCalendar;
 
 public class ForecastFragment extends Fragment {
 
+    ArrayAdapter<String> _adapter;
 
     public ForecastFragment() {
         // Required empty public constructor
@@ -56,10 +57,10 @@ public class ForecastFragment extends Fragment {
                 "Wed - Sunny - 45/32", "Thu - Sunny - 46/34", "Fri - Cloudy - 34/34",
                 "Sat - Cloudy - 324/24", "Sun - Sunny - 65/23"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, data);
+        _adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, data);
 
         ListView listView = (ListView)rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(adapter);
+        listView.setAdapter(_adapter);
 
         return rootView;
     }
@@ -74,7 +75,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
-            FetchWeatherTask task = new FetchWeatherTask(getActivity());
+            FetchWeatherTask task = new FetchWeatherTask(_adapter);
             task.execute("94043");
             return true;
         }

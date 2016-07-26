@@ -1,10 +1,8 @@
 package layout;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -27,19 +25,19 @@ import java.util.GregorianCalendar;
 /**
  * Created by serge_000 on 7/21/2016.
  */
-public class FetchWeatherTask extends AsyncTask<String, Void, String> {
+public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
     private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
-    private Activity _activity = null;
+    private ArrayAdapter<String> _adapter = null;
 
-    public FetchWeatherTask(Activity activity){
+    public FetchWeatherTask(ArrayAdapter<String> adapter) {
 
-        _activity = activity;
+        _adapter = adapter;
     }
 
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String[] doInBackground(String... params) {
 
 
         // These two need to be declared outside the try/catch
@@ -56,12 +54,12 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
         String appId = "54b0302e1613428e31ad136e96569743";
 
         try {
-            final String FORECAST_BASE_URL ="http://api.openweathermap.org/data/2.5/forecast/daily?";
+            final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
             final String QUERY_PARAM = "q";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
-            final String APPID_PARAM ="APPID";
+            final String APPID_PARAM = "APPID";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, params[0])
@@ -103,13 +101,17 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
                 return null;
             }
             forecastJsonStr = buffer.toString();
+            String[] data = getWeatherDataFromJson(forecastJsonStr, 7);
             Log.v(LOG_TAG, forecastJsonStr);
+        } catch (JSONException je) {
+            Log.e(LOG_TAG, "Error ", je);
+            return null;
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
             // If the code didn't successfully get the weather data, there's no point in attemping
             // to parse it.
             return null;
-        } finally{
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -121,20 +123,20 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
                 }
             }
         }
-        //return null;
-        return forecastJsonStr;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(String json) {
-        try {
-            String[] data = getWeatherDataFromJson(json, 7);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(_activity, R.layout.list_item_forecast, R.id.list_item_forecast_textview, data);
+    protected void onPostExecute(String[] forecast) {
+        if (forecast == null ||  forecast.length == 0)
+            return;
 
-            ListView listView = (ListView) _activity.findViewById(R.id.listview_forecast);
-            listView.setAdapter(adapter);
+        _adapter.clear();
+
+        for (String entry: forecast) {
+            _adapter.add(entry);
         }
-        catch (JSONException je){}
+        _adapter.notifyDataSetChanged();
     }
 
     /**
@@ -152,7 +154,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
     /**
      * Take the String representing the complete forecast in JSON Format and
      * pull out the data we need to construct the Strings needed for the wireframes.
-     *
+     * <p/>
      * Fortunately parsing is easy:  constructor takes the JSON string and converts it
      * into an Object hierarchy for us.
      */
@@ -172,7 +174,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
 
 
         String[] resultStrs = new String[numDays];
-        for(int i = 0; i < weatherArray.length(); i++) {
+        for (int i = 0; i < weatherArray.length(); i++) {
             // For now, using the format "Day, description, hi/low"
             String day;
             String description;
