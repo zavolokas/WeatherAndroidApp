@@ -103,6 +103,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             forecastJsonStr = buffer.toString();
             String[] data = getWeatherDataFromJson(forecastJsonStr, 7);
             Log.v(LOG_TAG, forecastJsonStr);
+            return data;
+
         } catch (JSONException je) {
             Log.e(LOG_TAG, "Error ", je);
             return null;
@@ -123,20 +125,16 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
                 }
             }
         }
-        return null;
+        //return null;
     }
 
     @Override
     protected void onPostExecute(String[] forecast) {
-        if (forecast == null ||  forecast.length == 0)
+        if (forecast == null || forecast.length == 0)
             return;
 
         _adapter.clear();
-
-        for (String entry: forecast) {
-            _adapter.add(entry);
-        }
-        _adapter.notifyDataSetChanged();
+        _adapter.addAll(forecast);
     }
 
     /**
