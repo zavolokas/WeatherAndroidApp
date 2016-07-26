@@ -17,12 +17,19 @@ import android.widget.ListView;
 
 import com.zavolokas.tryapp.tryapp.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ForecastFragment extends Fragment {
 
@@ -67,7 +74,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
-            FetchWeatherTask task = new FetchWeatherTask();
+            FetchWeatherTask task = new FetchWeatherTask(getActivity());
             task.execute("94043");
             return true;
         }

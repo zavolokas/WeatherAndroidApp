@@ -1,8 +1,18 @@
 package layout;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.zavolokas.tryapp.tryapp.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,16 +20,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by serge_000 on 7/21/2016.
  */
-public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
+public class FetchWeatherTask extends AsyncTask<String, Void, String> {
 
     private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+    private Activity _activity = null;
+
+    public FetchWeatherTask(Activity activity){
+
+        _activity = activity;
+    }
+
 
     @Override
-    protected Void doInBackground(String... params) {
+    protected String doInBackground(String... params) {
 
 
         // These two need to be declared outside the try/catch
@@ -101,7 +121,93 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 }
             }
         }
-        return null;
-        //return forecastJsonStr;
+        //return null;
+        return forecastJsonStr;
+    }
+
+    @Override
+    protected void onPostExecute(String json) {
+        try {
+            String[] data = getWeatherDataFromJson(json, 7);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(_activity, R.layout.list_item_forecast, R.id.list_item_forecast_textview, data);
+
+            ListView listView = (ListView) _activity.findViewById(R.id.listview_forecast);
+            listView.setAdapter(adapter);
+        }
+        catch (JSONException je){}
+    }
+
+    /**
+     * Prepare the weather high/lows for presentation.
+     */
+    private String formatHighLows(double high, double low) {
+        // For presentation, assume the user doesn't care about tenths of a degree.
+        long roundedHigh = Math.round(high);
+        long roundedLow = Math.round(low);
+
+        String highLowStr = roundedHigh + "/" + roundedLow;
+        return highLowStr;
+    }
+
+    /**
+     * Take the String representing the complete forecast in JSON Format and
+     * pull out the data we need to construct the Strings needed for the wireframes.
+     *
+     * Fortunately parsing is easy:  constructor takes the JSON string and converts it
+     * into an Object hierarchy for us.
+     */
+    private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
+            throws JSONException {
+
+        // These are the names of the JSON objects that need to be extracted.
+        final String OWM_LIST = "list";
+        final String OWM_WEATHER = "weather";
+        final String OWM_TEMPERATURE = "temp";
+        final String OWM_MAX = "max";
+        final String OWM_MIN = "min";
+        final String OWM_DESCRIPTION = "main";
+
+        JSONObject forecastJson = new JSONObject(forecastJsonStr);
+        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
+
+
+        String[] resultStrs = new String[numDays];
+        for(int i = 0; i < weatherArray.length(); i++) {
+            // For now, using the format "Day, description, hi/low"
+            String day;
+            String description;
+            String highAndLow;
+
+            // Get the JSON object representing the day
+            JSONObject dayForecast = weatherArray.getJSONObject(i);
+
+            //create a Gregorian Calendar, which is in current date
+            GregorianCalendar gc = new GregorianCalendar();
+            //add i dates to current date of calendar
+            gc.add(GregorianCalendar.DATE, i);
+            //get that date, format it, and "save" it on variable day
+            Date time = gc.getTime();
+            SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
+            day = shortenedDateFormat.format(time);
+
+            // description is in a child array called "weather", which is 1 element long.
+            JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
+            description = weatherObject.getString(OWM_DESCRIPTION);
+
+            // Temperatures are in a child object called "temp".  Try not to name variables
+            // "temp" when working with temperature.  It confuses everybody.
+            JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
+            double high = temperatureObject.getDouble(OWM_MAX);
+            double low = temperatureObject.getDouble(OWM_MIN);
+
+            highAndLow = formatHighLows(high, low);
+            resultStrs[i] = day + " - " + description + " - " + highAndLow;
+        }
+
+        for (String s : resultStrs) {
+            Log.v("FetchWeatherTask", "Forecast entry: " + s);
+        }
+        return resultStrs;
+
     }
 }
