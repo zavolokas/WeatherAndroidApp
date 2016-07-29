@@ -2,6 +2,7 @@ package layout;
 
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.zavolokas.tryapp.tryapp.DetailActivity;
 import com.zavolokas.tryapp.tryapp.R;
 
 import org.json.JSONArray;
@@ -71,10 +73,10 @@ public class ForecastFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = _adapter.getItem(position);
-                Context context = getContext();
-                Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-                toast.show();
+                String forecast = _adapter.getItem(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(intent);
             }
         });
 
