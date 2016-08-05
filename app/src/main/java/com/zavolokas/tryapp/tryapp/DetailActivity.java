@@ -17,7 +17,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
         if (savedInstanceState==null){
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.detail_container, new DetailActivityFragment(), "DETAIL_FRAGMENT")
@@ -25,11 +24,11 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.detail, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+    }
 
 
 }
