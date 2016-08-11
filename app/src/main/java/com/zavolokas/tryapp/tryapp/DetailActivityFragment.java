@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,12 +16,15 @@ import android.widget.TextView;
  */
 public class DetailActivityFragment extends Fragment {
 
+    private static final String DETAIL_ACTIVITY_FRAGMENT_TAG = "DetActFrgmtLog";
+
     public DetailActivityFragment() {
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "register options");
         setHasOptionsMenu(true);
     }
 
@@ -36,5 +41,21 @@ public class DetailActivityFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "option selected");
+
+        if (item.getItemId() == R.id.action_settings_menu_item){
+            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "settings selected");
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "activity started");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
     }
 }

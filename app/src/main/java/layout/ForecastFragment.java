@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.zavolokas.tryapp.tryapp.DetailActivity;
 import com.zavolokas.tryapp.tryapp.R;
+import com.zavolokas.tryapp.tryapp.SettingsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,6 +96,14 @@ public class ForecastFragment extends Fragment {
         if (item.getItemId() == R.id.action_refresh) {
             FetchWeatherTask task = new FetchWeatherTask(_adapter);
             task.execute("94043");
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_setting){
+//            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "settings selected");
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+//            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "activity started");
             return true;
         }
 
