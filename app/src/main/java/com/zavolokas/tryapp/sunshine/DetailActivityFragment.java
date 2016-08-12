@@ -1,10 +1,9 @@
-package com.zavolokas.tryapp.tryapp;
+package com.zavolokas.tryapp.sunshine;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;

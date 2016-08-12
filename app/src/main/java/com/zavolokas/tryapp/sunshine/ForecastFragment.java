@@ -1,4 +1,4 @@
-package com.zavolokas.tryapp.tryapp;
+package com.zavolokas.tryapp.sunshine;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.zavolokas.tryapp.tryapp.DetailActivity;
-import com.zavolokas.tryapp.tryapp.FetchWeatherTask;
-import com.zavolokas.tryapp.tryapp.R;
-import com.zavolokas.tryapp.tryapp.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

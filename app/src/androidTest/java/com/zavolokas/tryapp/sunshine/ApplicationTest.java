@@ -1,4 +1,4 @@
-package com.zavolokas.tryapp.tryapp;
+package com.zavolokas.tryapp.sunshine;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

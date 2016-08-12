@@ -1,4 +1,4 @@
-package com.zavolokas.tryapp.tryapp;
+package com.zavolokas.tryapp.sunshine;
 
 import org.junit.Test;
 
