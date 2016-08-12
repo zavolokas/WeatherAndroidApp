@@ -38,6 +38,7 @@ public class ForecastFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        // temporary fake data for the initial population of the list
         String[] data = new String[] {"Today - Sunny - 88/63", "Tomorrow - Cloudy - 45/56",
                 "Wed - Sunny - 45/32", "Thu - Sunny - 46/34", "Fri - Cloudy - 34/34",
                 "Sat - Cloudy - 324/24", "Sun - Sunny - 65/23"};
@@ -65,23 +66,22 @@ public class ForecastFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.forecastfragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
+            // manually update the foracast in the list
+            // this will be done automatically
             FetchWeatherTask task = new FetchWeatherTask(_adapter);
             task.execute("94043");
             return true;
         }
 
         if (item.getItemId() == R.id.action_setting){
-//            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "settings selected");
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
-//            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "activity started");
             return true;
         }
 

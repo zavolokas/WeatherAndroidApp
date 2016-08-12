@@ -31,8 +31,11 @@ public class DetailActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        // there should be additional info to display on the screen
         Intent intent = getActivity().getIntent();
         if (intent!=null && intent.hasExtra(Intent.EXTRA_TEXT) ){
+            // for the moment it is a simle text information that duplicates
+            // the information from the selected list item
             String forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
             TextView textView = (TextView) rootView.findViewById(R.id.forecast_text_detail);
             textView.setText(forecast);

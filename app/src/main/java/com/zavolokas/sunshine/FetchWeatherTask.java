@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Created by serge_000 on 7/21/2016.
+ * The task to fetch weather forecast from a web service.
  */
 public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
@@ -28,14 +28,11 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
     private ArrayAdapter<String> _adapter = null;
 
     public FetchWeatherTask(ArrayAdapter<String> adapter) {
-
         _adapter = adapter;
     }
 
-
     @Override
     protected String[] doInBackground(String... params) {
-
 
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
@@ -99,7 +96,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             }
             forecastJsonStr = buffer.toString();
             String[] data = getWeatherDataFromJson(forecastJsonStr, 7);
-            Log.v(LOG_TAG, forecastJsonStr);
             return data;
 
         } catch (JSONException je) {
@@ -122,14 +118,15 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
                 }
             }
         }
-        //return null;
     }
 
     @Override
     protected void onPostExecute(String[] forecast) {
+        // here we should have a list of forecasts
         if (forecast == null || forecast.length == 0)
             return;
 
+        // display them
         _adapter.clear();
         _adapter.addAll(forecast);
     }
