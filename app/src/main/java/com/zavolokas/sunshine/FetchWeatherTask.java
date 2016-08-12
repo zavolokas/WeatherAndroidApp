@@ -1,4 +1,4 @@
-package com.zavolokas.tryapp.sunshine;
+package com.zavolokas.sunshine;
 
 import android.net.Uri;
 import android.os.AsyncTask;

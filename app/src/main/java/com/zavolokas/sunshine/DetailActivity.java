@@ -1,4 +1,4 @@
-package com.zavolokas.tryapp.sunshine;
+package com.zavolokas.sunshine;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

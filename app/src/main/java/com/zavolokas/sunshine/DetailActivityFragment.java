@@ -1,4 +1,4 @@
-package com.zavolokas.tryapp.sunshine;
+package com.zavolokas.sunshine;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
