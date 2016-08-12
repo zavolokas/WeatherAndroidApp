@@ -1,12 +1,9 @@
-package layout;
+package com.zavolokas.tryapp.tryapp;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import com.zavolokas.tryapp.tryapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

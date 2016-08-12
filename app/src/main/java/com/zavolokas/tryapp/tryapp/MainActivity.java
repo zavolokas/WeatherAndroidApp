@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import layout.ForecastFragment;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String FORECASTFRAGMENT_TAG = " ForecastFragment";

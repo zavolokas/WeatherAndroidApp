@@ -24,7 +24,6 @@ public class DetailActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "register options");
         setHasOptionsMenu(true);
     }
 
@@ -45,13 +44,10 @@ public class DetailActivityFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "option selected");
 
         if (item.getItemId() == R.id.action_settings_menu_item){
-            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "settings selected");
             Intent intent = new Intent(getActivity(), SettingsActivity.class);
             startActivity(intent);
-            Log.e(DETAIL_ACTIVITY_FRAGMENT_TAG, "activity started");
             return true;
         }
 
