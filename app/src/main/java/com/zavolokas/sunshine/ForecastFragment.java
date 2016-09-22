@@ -1,6 +1,7 @@
 package com.zavolokas.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.prefs.Preferences;
 
 public class ForecastFragment extends Fragment {
 
@@ -74,8 +76,9 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
 
-            String location = PreferenceManager.getDefaultSharedPreferences(this.getContext())
-                    .getString(getResources().getString(R.string.pref_location_key),"94043");
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+            String location = prefs.getString(getString(R.string.pref_location_key),
+                                              getString(R.string.pref_location_default));
 
             // manually update the foracast in the list
             // this will be done automatically
