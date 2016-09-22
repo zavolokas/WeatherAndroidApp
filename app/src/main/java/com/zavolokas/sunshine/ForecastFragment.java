@@ -2,6 +2,7 @@ package com.zavolokas.sunshine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,10 +73,14 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
+
+            String location = PreferenceManager.getDefaultSharedPreferences(this.getContext())
+                    .getString(getResources().getString(R.string.pref_location_key),"94043");
+
             // manually update the foracast in the list
             // this will be done automatically
             FetchWeatherTask task = new FetchWeatherTask(_adapter);
-            task.execute("94043");
+            task.execute(location);
             return true;
         }
 
