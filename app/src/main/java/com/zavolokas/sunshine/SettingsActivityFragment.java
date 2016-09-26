@@ -43,7 +43,10 @@ implements Preference.OnPreferenceChangeListener {
         String stringValue = newValue.toString();
 
         if (preference instanceof ListPreference){
-
+            ListPreference listPref = (ListPreference)preference;
+            int prefIndex = listPref.findIndexOfValue(stringValue);
+            if (prefIndex >=0)
+                preference.setSummary(listPref.getEntries()[prefIndex]);
         } else{
             preference.setSummary(stringValue);
         }

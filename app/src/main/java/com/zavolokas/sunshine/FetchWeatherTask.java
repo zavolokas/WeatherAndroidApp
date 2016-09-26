@@ -43,7 +43,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         String forecastJsonStr = null;
 
         String format = "json";
-        String units = "metric";
         int numDays = 7;
         String appId = "54b0302e1613428e31ad136e96569743";
 
@@ -58,7 +57,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, params[0])
                     .appendQueryParameter(FORMAT_PARAM, format)
-                    .appendQueryParameter(UNITS_PARAM, units)
+                    .appendQueryParameter(UNITS_PARAM, params[1])
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
                     .appendQueryParameter(APPID_PARAM, appId)
                     .build();

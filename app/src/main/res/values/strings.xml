@@ -9,4 +9,19 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key">location</string>
     <string name="pref_location_default">94043</string>
+    <string name="pref_units_key">units</string>
+    <string name="pref_units_title">Tempreture units</string>
+    <string name="pref_units_default">metric</string>
+    <string name="menu_location_title">Location</string>
+    <string name="menu_settings_title">Settings</string>
+
+    <string-array name="pref_units_entries">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+
+    <string-array name="pref_units_values">
+        <item>metric</item>
+        <item>imerial</item>
+    </string-array>
 </resources>
