@@ -14,6 +14,7 @@
     <string name="pref_units_default">metric</string>
     <string name="menu_location_title">Location</string>
     <string name="menu_settings_title">Settings</string>
+    <string name="action_share_title">Share</string>
 
     <string-array name="pref_units_entries">
         <item>Metric</item>
